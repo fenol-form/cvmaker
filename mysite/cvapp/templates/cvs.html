@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Your CVs :</h1>
+<ul>
+    {% for cv in list_of_cvs %}
+    <li>
+         <p>{{cv.first_name}}</p>
+         <p>{{cv.last_name}}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock  %}
