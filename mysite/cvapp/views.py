@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout, login
@@ -16,30 +17,32 @@ from .utils import *
 class Home(Mixin, TemplateView):
     template_name = "mainpage.html"
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(request=self.request, **kwargs)
+        context = super(Home, self).get_context_data()
+        context.update(self.get_context_mixin(request=self.request, **kwargs))
         return context
 
 
+class ListOfCV(LoginRequiredMixin, Mixin, ListView):
+    model = CV
+    template_name = "cvs.html"
+
+    def get_context_data(self, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_context_mixin(request=self.request, **kwargs))
+        return context
+
+
+class Add_CV(LoginRequiredMixin, Mixin, CreateView):
+    form_class = AddCVForm
+    template_name = "add_cv.html"
+    success_url = reverse_lazy("add_cv")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_context_mixin(request=self.request, **kwargs))
+        return context
+
 '''
-def mainpage(request):
-    if request.user.is_authenticated:
-        print("AAAAAAAAAAAAA")
-
-    context = {
-            "menu" : enter_menu
-    }
-    return render(request, "mainpage.html", context=context)
-'''
-
-def cvs(request):
-    list_of_cvs = CV.objects.all()
-    context = {
-            "list_of_cvs" : list_of_cvs,
-            "menu" : exit_menu
-    }
-    return render(request, "cvs.html", context=context)
-
-
 def add_cv(request):
     context = {"menu" : exit_menu}
 
@@ -56,7 +59,7 @@ def add_cv(request):
     
     context["form"] = form
     return render(request, "add_cv.html", context=context)
-
+'''
 
 class Sign_in(LoginView):
     form_class = AuthenticationForm

@@ -2,4 +2,27 @@
 
 {% block content %}
 <h1>This is a main page !</h1>
+
+{% if request.user.is_authenticated %}
+
+<div class="container-md">
+
+    <div class="col-md-4">
+        <form action="{% url 'add_cv' %}">
+            <button class="btn btn-primary btn-lg">Add new CV</button>
+        </form>
+    </div>
+
+    <div></div>
+
+    <div class="col-md-4">
+        <form action="{% url 'cvs' %}">
+            <button class="btn btn-primary btn-lg">Check my CVs</button>
+        </form>
+    </div>
+
+</div>
+
+{% endif %}
+
 {% endblock %}

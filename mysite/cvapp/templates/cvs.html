@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Your CVs :</h1>
 <ul>
-    {% for cv in list_of_cvs %}
+    {% for cv in object_list %}
     <li>
          <p>{{cv.first_name}}</p>
          <p>{{cv.last_name}}</p>
