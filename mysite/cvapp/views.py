@@ -3,25 +3,33 @@ from django.http import HttpResponse
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.urls import reverse_lazy
-
 
 from .models import *
 
 from .forms import *
 
-enter_menu = [{"title" : "Sign in", "url" : "sign_in"},
-        {"title" : "Sign up", "url" : "sign_up"}]
+from .utils import *
 
-exit_menu = [{"title" : "Logout", "url" : "home"}]
 
+class Home(Mixin, TemplateView):
+    template_name = "mainpage.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(request=self.request, **kwargs)
+        return context
+
+
+'''
 def mainpage(request):
+    if request.user.is_authenticated:
+        print("AAAAAAAAAAAAA")
+
     context = {
             "menu" : enter_menu
     }
     return render(request, "mainpage.html", context=context)
-
+'''
 
 def cvs(request):
     list_of_cvs = CV.objects.all()
@@ -50,27 +58,35 @@ def add_cv(request):
     return render(request, "add_cv.html", context=context)
 
 
-def sign_in(request):
-    return HttpResponse("HELLO! THIS IS A SIGN IN PAGE!!!")
+class Sign_in(LoginView):
+    form_class = AuthenticationForm
+    template_name = "sign_in.html"
+    success_url = reverse_lazy("home")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["menu"] = enter_menu
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy("home")
 
 
 class Sign_up(CreateView):
     form_class = NewUserForm
-
     template_name = "sign_up.html"
     success_url = reverse_lazy("sign_in")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["menu"] = enter_menu
+        return context
 
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
         return redirect("home")
 
-
-
-
-
-
-
-
-
-
+def sign_out(request):
+    logout(request)
+    return redirect("home")
