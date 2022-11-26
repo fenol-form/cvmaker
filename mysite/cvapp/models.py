@@ -24,11 +24,11 @@ class CV(models.Model):
         return reverse("cvs")
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}\n" \
-               f"{self.age}\n" \
-               f"{self.city}\n" \
-               f"{self.post}\n" \
-               f"{self.experience}\n" \
-               f"{self.education}\n" \
-               f"{self.key_skills}\n" \
-               f"{self.languages}\n";
+        return f"{self.first_name} {self.last_name}\n \
+               {self.age}\n \
+               {self.city}\n \
+               {self.post}\n \
+               {self.experience}\n \
+               {self.education}\n \
+               {self.key_skills}\n \
+               {self.languages}\n";

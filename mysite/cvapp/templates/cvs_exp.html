@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load tags %}
+{% block content %}
+
+<h1 class="h3 mb-3 font-weight-normal">Your CV :</h1>
+
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+  {% for cv in object_list %}
+    {% if request.user.id == cv.username.id %}
+      <div class="media text-muted pt-3">
+        <div class="col-md-4">
+
+        <form action="{% url 'load' cv.id %}">
+          {% csrf_token %}
+          <button class="btn btn-secondary">
+              Convert to PDF
+          </button>
+        </form>
+
+        </div>
+
+        <big>
+        <p>
+          <strong class="d-block text-gray-dark">{{cv.first_name}} {{cv.last_name}}</strong>
+          {{cv}}
+        </p>
+        </big>
+
+      </div>
+    {% endif %}
+  {% endfor %}
+
+</div>
+
+{% endblock  %}

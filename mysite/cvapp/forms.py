@@ -9,7 +9,7 @@ from .models import *
 class AddCVForm(forms.ModelForm):
     class Meta:
         model = CV
-        fields = "__all__"
+        exclude = ["username"]
 
 
 class NewUserForm(UserCreationForm):
