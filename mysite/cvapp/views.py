@@ -42,24 +42,6 @@ class Add_CV(LoginRequiredMixin, Mixin, CreateView):
         context.update(self.get_context_mixin(request=self.request, **kwargs))
         return context
 
-'''
-def add_cv(request):
-    context = {"menu" : exit_menu}
-
-    if request.method == "POST":
-        form = AddCVForm(request.POST)
-        if form.is_valid():
-            form.save()
-            print("AAAA")
-            form = AddCVForm()
-        else:
-            form.add_error(None, "Incorrect fillings")
-    else:
-        form = AddCVForm()
-    
-    context["form"] = form
-    return render(request, "add_cv.html", context=context)
-'''
 
 class Sign_in(LoginView):
     form_class = AuthenticationForm
