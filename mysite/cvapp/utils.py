@@ -8,6 +8,8 @@ exit_menu = [{"title" : "Sign out", "url" : "sign_out"},
              {"title" : "Main page", "url" : "home"}]
 
 
+last_changed_cv = dict()
+
 class Mixin:
     def get_context_mixin(self, request=None, **kwargs):
         context = kwargs
