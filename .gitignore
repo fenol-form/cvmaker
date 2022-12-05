@@ -1,1 +1,12 @@
 .idea
+
+# Text backup files
+*.bak
+
+#Database
+*.sqlite3
+
+venv
+
+*/images
+*/pdf_outputs
